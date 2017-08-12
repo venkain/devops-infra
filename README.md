@@ -7,7 +7,9 @@
 1. git installation
 1. Terraform installation
 
-Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
+## Considerations
+
+For the sake of simplicity, Terraform community modules were used in this project. They should be forked for usage in a real production environment.
 
 ## Deployment
 
@@ -19,6 +21,10 @@ Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
     ```
     cd devops-infra/terraform
     vi vars.tf
+    ```
+1. Initialize the environment:
+    ```
+    terraform init
     ```
 1. Check Terraform plan:
     ```
@@ -32,3 +38,5 @@ Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
     ```
     ...
     ```
+
+Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
