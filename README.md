@@ -12,23 +12,23 @@ Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
 ## Deployment
 
 1. Pull from Github:
-```
-git clone git@github.com:venkain/devops-infra.git
-```
-2. Review and edit resourse parameters:
-```
-cd devops-infra/terraform
-vi vars.tf
-```
-3. Check Terraform plan:
-```
-terraform plan
-```
-4. Provision:
-```
-terraform apply
-```
-5. Provide resource attributes to developers:
-```
-...
-```
+    ```
+    git clone git@github.com:venkain/devops-infra.git
+    ```
+1. Review and edit resourse parameters:
+    ```
+    cd devops-infra/terraform
+    vi vars.tf
+    ```
+1. Check Terraform plan:
+    ```
+    terraform plan
+    ```
+1. Provision:
+    ```
+    terraform apply
+    ```
+1. Provide resource attributes to developers:
+    ```
+    ...
+    ```
