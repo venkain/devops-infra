@@ -1,9 +1,11 @@
 # TODO: set region variable and pull AZs from data source
 
 provider "aws" {
-    region = "us-east-1"
+    region = "${var.region}"
     profile = "${var.profile}"
 }
+
+data "aws_availability_zones" "available" {}
 
 module "vpc" {
   source = "github.com/terraform-community-modules/tf_aws_vpc"
@@ -16,8 +18,11 @@ module "vpc" {
   database_subnets = [ "10.0.200.0/24", "10.0.201.0/24" ]
 
   enable_nat_gateway = "false"
+  single_nat_gateway = "false"
+  enable_dns_support = "true"
+  enable_dns_hostnames = "true"
 
-  azs      = [ "us-east-1a", "us-east-1b" ]
+  azs      = [ "${slice(data.aws_availability_zones.available.names, 0, 2)}" ]
 
   tags {
     "Terraform" = "true"
@@ -25,7 +30,7 @@ module "vpc" {
   }
 }
 
-module "devops-instance" {
+module "rds" {
   source = "github.com/terraform-community-modules/tf_aws_rds"
 
     # RDS Instance Inputs
@@ -56,10 +61,27 @@ module "devops-instance" {
     subnets = ["${module.vpc.database_subnets}"]
     rds_vpc_id = "${module.vpc.vpc_id}"
     // private_cidr = ["${var.private_cidr}"]
-    private_cidr = [ "10.0.200.0/24", "10.0.201.0/24" ]
+    private_cidr = [ "10.0.0.0/16" ]
 
     tags {
         "Terraform" = "true"
         "Environment" = "${var.environment}"
     }
+}
+
+# Outputs
+output "db_address" {
+  value = "${module.rds.rds_instance_address}"
+}
+
+output "db_name" {
+  value = "${var.database_name}"
+}
+
+output "db_user" {
+  value = "${var.database_user}"
+}
+
+output "db_password" {
+  value = "${var.database_password}"
 }
