@@ -7,6 +7,16 @@
 1. git installation
 1. Terraform installation
 
+## Provisioned Resources
+* VPC
+* Subnet(s)
+* NAT GW
+* Internet GW
+* Routing tables and associations
+* Elastic IPs
+* RDS instance
+* Elastic Beanstalk environment
+
 ## Considerations
 
 For the sake of simplicity, Terraform community modules were used in this project. They should be forked for usage in a real production environment.
