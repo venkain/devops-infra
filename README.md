@@ -36,6 +36,10 @@ For the sake of simplicity, Terraform community modules were used in this projec
     ```
     terraform init
     ```
+1. Pull terraform modules:
+    ```
+    terraform get
+    ```
 1. Check Terraform plan:
     ```
     terraform plan
