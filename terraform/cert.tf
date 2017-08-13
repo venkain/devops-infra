@@ -66,11 +66,6 @@ resource "tls_locally_signed_cert" "cert" {
   ]
 }
 
-output "cert" {
-  value = "${tls_locally_signed_cert.cert.cert_pem}"
-}
-
-# For example, this can be used to populate an AWS IAM server certificate.
 resource "aws_iam_server_certificate" "devops-cert" {
   name             = "${var.app_name}-${var.environment}"
   certificate_body = "${tls_locally_signed_cert.cert.cert_pem}"
