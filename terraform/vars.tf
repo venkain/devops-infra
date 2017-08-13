@@ -52,3 +52,8 @@ variable "max_size" {
     description = "Maximum autoscaling size"
     default = 4
 }
+
+variable "gitlab_db_name" {
+    description = "Gitlab DB name"
+    default = "gitlabdb"
+}
