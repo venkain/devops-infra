@@ -8,6 +8,7 @@ module "rds" {
     rds_instance_class = "${var.rds_instance_class}"
     rds_engine_version = "${var.rds_engine_version}"
     db_parameter_group = "${var.db_parameter_group}"
+    rds_is_multi_az = "${var.environment == "production" ? "true" : "false"}"
 
     database_name = "${var.database_name}"
     database_user = "${var.database_user}"
