@@ -1,0 +1,45 @@
+variable "beanstalk_solution_stack_name" {
+    description = "Beanstalk solution stack name"
+    default = "64bit Amazon Linux 2017.03 v2.4.2 running Ruby 2.3 (Puma)"
+}
+
+variable "beanstalk_min_size" {
+    description = "Beanstalk minimum size"
+    default = 1
+}
+
+variable "beanstalk_max_size" {
+    description = "Beanstalk maximum size"
+    default = 4
+}
+
+// // variable "beanstalk_maintenance_window"
+// variable "min_instances_in_service" {
+//     description = "Minimum instances in service"
+//     default = 1
+// }
+
+// beanstalk_elb_security_group_id
+// root_volume_size
+// jump_security_group_id
+// beanstalk_ec2_instance_profile
+variable "beanstalk_instance_type" {
+    description = "Beanstalk instance type"
+    default = "t2.micro"
+}
+
+variable "beanstalk_notification_email" {
+    description = "Beanstalk notification email"
+    default = "venkain@gmail.com"
+}
+
+// beanstalk_service_role
+// max_batch_size
+// beanstalk_security_group_id
+// beanstalk_monitoring_interval
+// beanstalk_key_name
+
+variable "beanstalk_ec2_instance_profile" {
+    description = "Instance profile"
+    default = "aws-elasticbeanstalk-ec2-role"
+}

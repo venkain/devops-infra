@@ -1,0 +1,387 @@
+// TODO: add healthchecks, log publication, HTTPS, DNS, IAM role
+
+
+
+resource "aws_elastic_beanstalk_application" "beanstalk_app" {
+  name        = "devops-beanstalk-ruby"
+  description = "Beanstalk Application for Ruby"
+}
+
+resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
+  name                   = "devops-beanstalk-env"
+  description            = "Beanstalk Environment for Ruby"
+  application            = "${aws_elastic_beanstalk_application.beanstalk_app.name}"
+  solution_stack_name    = "${var.beanstalk_solution_stack_name}"
+  tier                   = "WebServer"
+  cname_prefix           = "devops-ruby"
+  wait_for_ready_timeout = "30m"
+
+   # Ignore Health Check can help when first starting up the infrastructure
+//   setting {
+//     namespace = "aws:elasticbeanstalk:command"
+//     name      = "IgnoreHealthCheck"
+//     value     = "true"
+//   }
+  
+//   setting {
+//     namespace = "aws:elasticbeanstalk:command"
+//     name      = "DeploymentPolicy"
+//     value     = "Rolling"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:command"
+//     name      = "BatchSize"
+//     value     = "50"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:command"
+//     name      = "BatchSizeType"
+//     value     = "Percentage"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:command"
+//     name      = "Timeout"
+//     value     = "600"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:application"
+//     name      = "Application Healthcheck URL"
+//     value     = "/"
+//   }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "VPCId"
+    value     = "${module.vpc.vpc_id}"
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "Subnets"
+    value     = "${join(",", module.vpc.private_subnets)}"
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "ELBSubnets"
+    value     = "${join(",", module.vpc.public_subnets)}"
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "DBSubnets"
+    value     = "${join(",", module.vpc.database_subnets)}"
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "ELBScheme"
+    value     = "public"
+  }
+
+//   setting {
+//     namespace = "aws:ec2:vpc"
+//     name      = "AssociatePublicIpAddress"
+//     value     = "false"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:asg"
+//     name      = "Availability Zones"
+//     value     = "Any 2"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:asg"
+//     name      = "Cooldown"
+//     value     = "600"
+//   }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name      = "MinSize"
+    value     = "${var.beanstalk_min_size}"
+  }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name      = "MaxSize"
+    value     = "${var.beanstalk_max_size}"
+  }
+
+//   setting {
+//     namespace = "aws:autoscaling:trigger"
+//     name      = "LowerThreshold"
+//     value     = "35"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:trigger"
+//     name      = "MeasureName"
+//     value     = "CPUUtilization"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:trigger"
+//     name      = "Statistic"
+//     value     = "Average"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:trigger"
+//     name      = "Unit"
+//     value     = "Percent"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:trigger"
+//     name      = "UpperThreshold"
+//     value     = "65"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:managedactions"
+//     name      = "ManagedActionsEnabled"
+//     value     = "true"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:managedactions"
+//     name      = "PreferredStartTime"
+//     value     = "${var.beanstalk_maintenance_window}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+//     name      = "MaxBatchSize"
+//     value     = "${var.max_batch_size}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+//     name      = "MinInstancesInService"
+//     value     = "${var.min_instances_in_service}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+//     name      = "RollingUpdateType"
+//     value     = "Health"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+//     name      = "RollingUpdateEnabled"
+//     value     = "true"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+//     name      = "Timeout"
+//     value     = "PT12M"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
+//     name      = "UpdateLevel"
+//     value     = "minor"
+//   }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:sns:topics"
+    name      = "Notification Endpoint"
+    value     = "${var.beanstalk_notification_email}"
+  }
+
+//   setting {
+//     namespace = "aws:elb:policies"
+//     name      = "ConnectionDrainingEnabled"
+//     value     = "true"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:policies"
+//     name      = "ConnectionDrainingTimeout"
+//     value     = "360"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:policies"
+//     name      = "ConnectionSettingIdleTimeout"
+//     value     = "360"
+//   }
+
+  setting {
+    namespace = "aws:elb:loadbalancer"
+    name      = "LoadBalancerHTTPSPort"
+    value     = "443"
+  }
+
+  setting {
+    namespace = "aws:elb:loadbalancer"
+    name      = "CrossZone"
+    value     = "true"
+  }
+
+  setting {
+    namespace = "aws:elb:loadbalancer"
+    name      = "LoadBalancerHTTPPort"
+    value     = "80"
+  }
+
+  setting {
+    namespace = "aws:elb:loadbalancer"
+    name      = "SSLCertificateId"
+    value     = "${aws_iam_server_certificate.devops-cert.arn}"
+  }
+
+//   setting {
+//     namespace = "aws:elb:loadbalancer"
+//     name      = "SecurityGroups"
+//     value     = "${var.beanstalk_elb_security_group_id}"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:loadbalancer"
+//     name      = "ManagedSecurityGroup"
+//     value     = "${var.beanstalk_elb_security_group_id}"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener"
+//     name      = "ListenerEnabled"
+//     value     = "false"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener:80"
+//     name      = "ListenerEnabled"
+//     value     = "false"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener:443"
+//     name      = "ListenerProtocol"
+//     value     = "HTTPS"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener:443"
+//     name      = "InstancePort"
+//     value     = "80"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener:443"
+//     name      = "InstanceProtocol"
+//     value     = "HTTP"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:listener:443"
+//     name      = "SSLCertificateId"
+//     value     = "redacted"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:healthcheck"
+//     name      = "HealthyThreshold"
+//     value     = "3"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:healthcheck"
+//     name      = "Interval"
+//     value     = "10"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:healthcheck"
+//     name      = "Timeout"
+//     value     = "9"
+//   }
+
+//   setting {
+//     namespace = "aws:elb:healthcheck"
+//     name      = "UnhealthyThreshold"
+//     value     = "3"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:environment"
+//     name      = "ServiceRole"
+//     value     = "${var.beanstalk_service_role}"
+//   }
+
+//   setting {
+//     namespace = "aws:elasticbeanstalk:healthreporting:system"
+//     name      = "SystemType"
+//     value     = "enhanced"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "SecurityGroups"
+//     value     = "${var.beanstalk_security_group_id}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "SSHSourceRestriction"
+//     value     = "tcp,22,22,${var.jump_security_group_id}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "MonitoringInterval"
+//     value     = "${var.beanstalk_monitoring_interval}"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "RootVolumeType"
+//     value     = "gp2"
+//   }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "RootVolumeSize"
+//     value     = "${var.root_volume_size}"
+//   }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "IamInstanceProfile"
+    value     = "${var.beanstalk_ec2_instance_profile}"
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "InstanceType"
+    value     = "${var.beanstalk_instance_type}"
+  }
+
+//   setting {
+//     namespace = "aws:autoscaling:launchconfiguration"
+//     name      = "EC2KeyName"
+//     value     = "${var.beanstalk_key_name}"
+//   }
+
+  tags {
+    Environment = "${var.environment}"
+  }
+//   depends_on = ["${aws_iam_server_certificate.devops-cert}"]
+}
+
+# Outputs
+output "eb_name" {
+  value = "${aws_elastic_beanstalk_environment.beanstalk_env.name}"
+}
+
+output "eb_cname" {
+  value = "${aws_elastic_beanstalk_environment.beanstalk_env.cname}"
+}
