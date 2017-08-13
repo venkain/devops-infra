@@ -1,7 +1,7 @@
 module "redis" {
   source         = "github.com/terraform-community-modules/tf_aws_elasticache_redis?ref=1.0.0"
   env            = "${var.environment}"
-  name           = "devops-${var.environment}"
+  name           = "${var.app_name}-${var.environment}"
   redis_clusters = "${var.environment == "production" ? 2 : 1}"
   redis_failover = "${var.environment == "production" ? "true" : "false"}"
   subnets        = "${module.vpc.database_subnets}"
