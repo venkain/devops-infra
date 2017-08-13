@@ -1,4 +1,4 @@
-# TODO: set region variable and pull AZs from data source
+# TODO: add bastion and ssh key
 
 provider "aws" {
     region = "${var.region}"
