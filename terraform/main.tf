@@ -1,4 +1,4 @@
-# TODO: add bastion and ssh key
+# TODO: add optional bastion and ssh key
 
 provider "aws" {
     region = "${var.region}"
