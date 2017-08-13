@@ -36,20 +36,3 @@ module "rds" {
         "Environment" = "${var.environment}"
     }
 }
-
-# Outputs
-output "db_address" {
-  value = "${module.rds.rds_instance_address}"
-}
-
-output "db_name" {
-  value = "${var.database_name}"
-}
-
-output "db_user" {
-  value = "${var.database_user}"
-}
-
-output "db_password" {
-  value = "${var.database_password}"
-}
