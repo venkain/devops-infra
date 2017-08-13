@@ -10,7 +10,7 @@ data "aws_availability_zones" "available" {}
 module "vpc" {
   source = "github.com/terraform-community-modules/tf_aws_vpc"
 
-  name = "devops-vpc"
+  name = "devops-vpc-${var.environment}"
 
   cidr = "10.0.0.0/16"
   private_subnets = [ "10.0.1.0/24" ] # add more for real HA
@@ -29,3 +29,36 @@ module "vpc" {
     "Environment" = "${var.environment}"
   }
 }
+
+resource "aws_security_group" "elb" {
+  name        = "${var.app_name}-elb"
+  description = "Allow inbound traffic to app's ELB"
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    Name = "${var.app_name}-elb"
+  }
+}
+
+resource "aws_security_group" "app" {
+  name        = "${var.app_name}"
+  description = "Allow inbound traffic to app"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${aws_security_group.elb.id}"]
+  }
+
+  tags {
+    Name = "${var.app_name}"
+  }
+}
+
