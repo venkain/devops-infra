@@ -2,7 +2,7 @@ module "rds" {
   source = "github.com/terraform-community-modules/tf_aws_rds"
 
     # RDS Instance Inputs
-    rds_instance_identifier = "${var.rds_instance_identifier}"
+    rds_instance_identifier = "${var.rds_instance_identifier}-${var.environment}"
     rds_allocated_storage = "${var.rds_allocated_storage}"
     rds_engine_type = "${var.rds_engine_type}"
     rds_instance_class = "${var.rds_instance_class}"
