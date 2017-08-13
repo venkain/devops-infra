@@ -16,6 +16,21 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+data "template_file" "user_data" {
+  template = "${file("user_data.sh")}"
+
+  vars {
+    elb_url = "${aws_alb.app.dns_name}",
+    postgres_url = "${module.rds.rds_instance_address}",
+    db_name = "${var.database_name}",
+    gitlab_db_name = "${var.gitlab_db_name}",
+    db_user = "${var.database_user}",
+    db_password = "${var.database_password}",
+    redis_url = "${module.redis.endpoint}"
+  }
+
+}
+
 resource "aws_launch_configuration" "app" {
   name_prefix   = "terraform-lc-${var.app_name}-"
   image_id      = "${data.aws_ami.ubuntu.id}"
