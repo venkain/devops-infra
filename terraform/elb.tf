@@ -18,9 +18,9 @@ resource "aws_alb" "app" {
 
 resource "aws_alb_target_group" "app" {
   name     = "${var.app_name}"
-  port     = 80
+  port     = 8080
   protocol = "HTTP"
-  vpc_id   = "${module.vpc.id}"
+  vpc_id   = "${module.vpc.vpc_id}"
 }
 
 resource "aws_alb_listener" "front_end" {
@@ -28,7 +28,7 @@ resource "aws_alb_listener" "front_end" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = ""
-  certificate_arn   = ""
+  certificate_arn   = "${aws_iam_server_certificate.devops-cert.arn}"
 
   default_action {
     target_group_arn = "${aws_alb_target_group.app.arn}"
