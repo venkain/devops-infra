@@ -13,9 +13,9 @@ module "vpc" {
   name = "devops-vpc-${var.environment}"
 
   cidr = "10.0.0.0/16"
-  private_subnets = [ "10.0.1.0/24" ] # add more for real HA
-  public_subnets  = [ "10.0.101.0/24" ] # add more for real HA
-  database_subnets = [ "10.0.200.0/24", "10.0.201.0/24" ]
+  private_subnets = [ "10.0.1.0/24", "10.0.2.0/24" ]
+  public_subnets  = [ "10.0.101.0/24", "10.0.102.0/24" ]
+  database_subnets = [ "10.0.201.0/24", "10.0.202.0/24" ]
 
   enable_nat_gateway = "true"
   single_nat_gateway = "true"
@@ -32,7 +32,7 @@ module "vpc" {
 
 resource "aws_security_group" "elb" {
   name        = "${var.app_name}-elb"
-  description = "Allow inbound traffic to app's ELB"
+  description = "Allow inbound traffic to the ELB"
 
   ingress {
     from_port   = 443
@@ -48,17 +48,16 @@ resource "aws_security_group" "elb" {
 
 resource "aws_security_group" "app" {
   name        = "${var.app_name}"
-  description = "Allow inbound traffic to app"
+  description = "Allow inbound traffic to the app"
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${aws_security_group.elb.id}"]
+    security_groups = ["${aws_security_group.elb.id}"]
   }
 
   tags {
     Name = "${var.app_name}"
   }
 }
-
