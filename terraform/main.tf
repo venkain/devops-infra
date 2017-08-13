@@ -33,6 +33,7 @@ module "vpc" {
 resource "aws_security_group" "elb" {
   name        = "${var.app_name}-elb"
   description = "Allow inbound traffic to the ELB"
+  vpc_id = "${module.vpc.vpc_id}"
 
   ingress {
     from_port   = 443
@@ -49,7 +50,7 @@ resource "aws_security_group" "elb" {
 resource "aws_security_group" "app" {
   name        = "${var.app_name}"
   description = "Allow inbound traffic to the app"
-
+  vpc_id = "${module.vpc.vpc_id}"
   ingress {
     from_port   = 80
     to_port     = 80
