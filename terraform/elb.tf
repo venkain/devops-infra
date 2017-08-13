@@ -17,10 +17,13 @@ resource "aws_alb" "app" {
 }
 
 resource "aws_alb_target_group" "app" {
-  name     = "${var.app_name}"
-  port     = 8080
+  name_prefix     = "app"
+  port     = 80
   protocol = "HTTP"
   vpc_id   = "${module.vpc.vpc_id}"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_alb_listener" "front_end" {
@@ -34,4 +37,11 @@ resource "aws_alb_listener" "front_end" {
     target_group_arn = "${aws_alb_target_group.app.arn}"
     type             = "forward"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+output "app_url" {
+  value = "https://${aws_alb.app.dns_name}"
 }
