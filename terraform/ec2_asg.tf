@@ -54,7 +54,7 @@ resource "aws_autoscaling_group" "app" {
   min_size                  = "${var.min_size}"
   health_check_grace_period = 300
   health_check_type         = "ELB"
-  desired_capacity          = 1
+  desired_capacity          = "${var.environment == "production" ? 2 : 1}"
   force_delete              = true
   # placement_group           = "${aws_placement_group.app.id}"
   launch_configuration      = "${aws_launch_configuration.app.name}"
