@@ -15,7 +15,7 @@ variable "environment" {
 
 variable "app_name" {
     description = "Application name"
-    default = "devops-ruby"
+    default = "gitlab"
 }
 
 variable "organization" {
