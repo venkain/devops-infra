@@ -1,5 +1,5 @@
 # Infrastructure Provisioning Code for "DevOps Engineer - technical interview"
-
+Sets up Gitlab and, if enabled, Elastic Beanstalk Ruby environment.
 ## Prerequisites
 
 1. AWS account
@@ -15,11 +15,13 @@
 * Routing tables and associations
 * Elastic IPs
 * RDS instance
-* Elastic Beanstalk environment
+* Application load balancer
+* Auto scaling group with HA EC2 instance(s)
+* Elastic Beanstalk environment (disabled)
 
 ## Considerations
 
-For the sake of simplicity, Terraform community modules were used in this project. They should be forked for usage in a real production environment.
+For the sake of simplicity, several Terraform community modules were used in this project. They should be forked for usage in a real production environment.
 
 ## Deployment
 
@@ -50,7 +52,7 @@ For the sake of simplicity, Terraform community modules were used in this projec
     ```
 1. Provide resource attributes to developers:
     ```
-    ...
+    terraform output
     ```
 
 Tested on macOS 10.12 with git 2.13.2, Terraform v0.10.0.
