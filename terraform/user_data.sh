@@ -13,7 +13,7 @@ gitlab_rails['db_adapter'] = 'postgresql'
 gitlab_rails['db_encoding'] = 'utf8'
 gitlab_rails['db_host'] = '${postgres_url}'
 gitlab_rails['db_port'] = '5432'
-gitlab_rails['db_database'] = '${db_name}'
+gitlab_rails['db_database'] = '${gitlab_db_name}'
 gitlab_rails['db_username'] = '${db_user}'
 gitlab_rails['db_password'] = '${db_password}'
 redis['enable'] = false
@@ -24,4 +24,5 @@ gitlab_rails['redis_port'] = 6380
 
 EOF
 chmod 600 /etc/gitlab/gitlab.rb
+PGPASSWORD='${db_password}' psql -h '${postgres_url}' -d '${db_name}' -U '${db_user}'-c 'select 1;' > /dev/null 2>&1 || sudo gitlab-rake gitlab:setup
 gitlab-ctl reconfigure
