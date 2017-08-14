@@ -30,6 +30,8 @@ For the sake of simplicity, several Terraform community modules were used in thi
 * Security group rule "allow_internal" is not created on every `terraform apply`.
 * SNS topic creation with **email** protocol is unsupported according to the [documentation](https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html).
 * SSH key pair generation is also unsupported.
+* The lack of own domain did not allow me to set up a proper Route 53-based domain record and SSL certificate.
+* Application logging and monitoring were considered but dropped as being out of scope.
 
 ## Deployment
 
