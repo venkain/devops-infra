@@ -40,7 +40,7 @@ variable "instance_type_prod" {
 
 variable "instance_type_dev" {
     description = "Development instance type"
-    default = "t2.small"
+    default = "t2.medium"
 }
 
 variable "min_size" {
