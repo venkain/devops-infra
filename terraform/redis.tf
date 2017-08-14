@@ -6,5 +6,6 @@ module "redis" {
   redis_failover = "${var.environment == "production" ? "true" : "false"}"
   subnets        = "${module.vpc.database_subnets}"
   vpc_id         = "${module.vpc.vpc_id}"
+  allowed_security_groups = [ "${aws_security_group.app.id}" ]
   redis_node_type = "${var.environment == "production" ? "cache.m4.large" : "cache.t2.micro"}"
 }
