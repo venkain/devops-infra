@@ -46,4 +46,3 @@ chmod 600 /etc/gitlab/gitlab.rb
 PGPASSWORD='${db_password}' psql -h '${postgres_url}' -d '${db_name}' -U '${db_user}' -c 'create database ${gitlab_db_name};' > /dev/null 2>&1 && echo yes | sudo gitlab-rake gitlab:setup
 sleep 5
 gitlab-ctl reconfigure
-sleep 10
