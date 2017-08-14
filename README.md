@@ -3,9 +3,9 @@ Sets up Gitlab and, if enabled, Elastic Beanstalk Ruby environment.
 ## Prerequisites
 
 1. AWS account
-1. AWS IAM user account with Admin permissions
-1. git installation
-1. Terraform installation
+1. AWS IAM user profile with Admin permissions
+1. git
+1. Terraform
 
 ## Provisioned Resources
 * VPC
@@ -41,14 +41,11 @@ For the sake of simplicity, several Terraform community modules were used in thi
     ```
     cd devops-infra/terraform
     vi vars.tf
+    vi rds_vars.tf
     ```
 1. Initialize the environment:
     ```
     terraform init
-    ```
-1. Pull terraform modules:
-    ```
-    terraform get
     ```
 1. Check Terraform plan:
     ```
@@ -58,15 +55,11 @@ For the sake of simplicity, several Terraform community modules were used in thi
     ```
     terraform apply
     ```
-1. Provide resource attributes to developers:
-    ```
-    terraform output
-    ```
 
 ## Access
 By default only HTTPS access is set up, as defined in the requirements. SSH access to the application instance(s) could be set up by adding the name of an already created SSH key to the launch config.
 
-Bastion host could be added by request :)
+Bastion host could be added by request, but it'll cost you extra :)
 
-## Colophon
-The code was tested on macOS 10.12 and Ubuntu 16.04 with git 2.13.2 and Terraform v0.10.0, and is not guaranteed to work in other environments.
+## Disclaimer
+The code was tested on macOS 10.12 and Ubuntu 16.04 with git 2.13.2 and Terraform v0.10.0, and is not guaranteed to work on other platforms or versions. Production environment was not tested and might not work as expected.
