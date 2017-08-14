@@ -2,7 +2,8 @@
 sudo apt update
 curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
 sudo apt install -y gitlab-ce postgresql-client nfs-common
-echo '${aws_efs_mount_target.app.dns_name}:/ /gitlab-data nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >> /etc/fstab
+echo '${efs_url}:/ /gitlab-data nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0' >> /etc/fstab
+mkdir /gitlab-data
 mount -a
 
 # set up gitlab
