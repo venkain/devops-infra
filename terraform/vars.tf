@@ -1,6 +1,6 @@
 variable "profile" {
   description = "AWS user profile"
-  default     = "venkain"
+  default     = "default"
 }
 
 variable "region" {
@@ -60,5 +60,5 @@ variable "gitlab_db_name" {
 
 variable "sns_alerts_arn" {
   description = "SNS topic ARN for autoscaling alerts."
-  default     = "arn:aws:sns:us-east-1:443499217059:Alerts"
+  default     = ""
 }
