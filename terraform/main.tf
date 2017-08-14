@@ -58,6 +58,7 @@ resource "aws_security_group" "app" {
   name        = "${var.app_name}"
   description = "Allow inbound traffic to the app"
   vpc_id = "${module.vpc.vpc_id}"
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -78,11 +79,11 @@ resource "aws_security_group" "app" {
   }
 }
 
-resource "aws_security_group_rule" "allow_ssh" {
+resource "aws_security_group_rule" "allow_internal" {
   type            = "ingress"
-  from_port       = 22
-  to_port         = 22
-  protocol        = "tcp"
+  from_port       = 0
+  to_port         = 0
+  protocol        = "-1"
   source_security_group_id = "${aws_security_group.app.id}"
   security_group_id = "${aws_security_group.app.id}"
 }
