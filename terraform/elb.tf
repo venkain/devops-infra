@@ -21,6 +21,7 @@ resource "aws_alb_target_group" "app" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${module.vpc.vpc_id}"
+
   lifecycle {
     create_before_destroy = true
   }
@@ -30,7 +31,7 @@ resource "aws_alb_listener" "front_end" {
   load_balancer_arn = "${aws_alb.app.arn}"
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = ""
+#  ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = "${aws_iam_server_certificate.devops-cert.arn}"
 
   default_action {
@@ -43,5 +44,5 @@ resource "aws_alb_listener" "front_end" {
 }
 
 output "app_url" {
-  value = "https://${aws_alb.app.dns_name}"
+  value = "Please wait 5-10 minutes after initial deployment and open https://${aws_alb.app.dns_name}"
 }
