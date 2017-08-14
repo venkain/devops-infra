@@ -96,6 +96,7 @@ resource "aws_autoscaling_attachment" "app" {
 }
 
 resource "aws_autoscaling_notification" "email_alerts" {
+  count = "${var.sns_alerts_arn == "" ? 0 : 1}"
   group_names = ["${aws_autoscaling_group.app.name}"]
 
   notifications = [
