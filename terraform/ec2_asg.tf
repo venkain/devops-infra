@@ -1,5 +1,3 @@
-# TODO: create SNS topic for notifications
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
