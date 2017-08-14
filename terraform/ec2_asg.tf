@@ -69,6 +69,12 @@ resource "aws_autoscaling_group" "app" {
   }
 
   tag {
+    key = "Name"
+    value = "${var.app_name}"
+    propagate_at_launch = true
+  }
+
+  tag {
     key = "Terraform"
     value = "true"
     propagate_at_launch = true
