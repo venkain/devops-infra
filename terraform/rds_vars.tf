@@ -3,11 +3,6 @@ variable "rds_instance_identifier" {
   default     = "devops-db"
 }
 
-variable "rds_is_multi_az" {
-  description = "Is the RDS multi-AZ"
-  default     = false
-}
-
 variable "rds_storage_type" {
   description = "RDS storage type"
   default     = "gp2"
