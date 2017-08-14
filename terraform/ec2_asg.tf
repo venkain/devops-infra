@@ -45,9 +45,8 @@ resource "aws_launch_configuration" "app" {
 
   enable_monitoring = false
 
-  #   iam_instance_profile =
   # Remove after test
-  key_name = "venkain"
+  # key_name = "xxx"
 
   user_data = "${data.template_file.user_data.rendered}"
 }
