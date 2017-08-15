@@ -74,6 +74,6 @@ For the sake of simplicity, several Terraform community modules were used in thi
     ```
 1. Access the environment
 
-    Check the output values of `terraform plan` or `terraform output`.
+    Check the output values of `terraform apply` or `terraform output`.
 ## Disclaimer
 The code was tested on macOS 10.12 and Ubuntu 16.04 with git 2.13.2 and Terraform v0.10.0, and is not guaranteed to work on other platforms or versions. Production environment was not tested and might not work as expected.
