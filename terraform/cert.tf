@@ -33,7 +33,7 @@ resource "tls_private_key" "cert" {
 # Register with own domain or use Amazon's domain
 resource "null_resource" "domain" {
   triggers = {
-    domain = "${var.domain == "" ? "*.amazonaws.com" : var.domain}"
+    domain = "${var.domain == "" ? "*.amazonaws.com" : join(".", list(var.app_name, var.domain))}"
   }
 }
 
@@ -68,7 +68,10 @@ resource "tls_locally_signed_cert" "cert" {
 }
 
 resource "aws_iam_server_certificate" "devops-cert" {
-  name             = "${var.app_name}-${var.environment}"
-  certificate_body = "${tls_locally_signed_cert.cert.cert_pem}"
-  private_key      = "${tls_private_key.cert.private_key_pem}"
+  name                  = "${join("-", list(var.app_name, var.environment, var.domain))}"
+  certificate_body      = "${tls_locally_signed_cert.cert.cert_pem}"
+  private_key           = "${tls_private_key.cert.private_key_pem}"
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
