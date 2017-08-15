@@ -30,7 +30,7 @@ Sets up Gitlab and, if enabled, Elastic Beanstalk Ruby environment.
 For the sake of simplicity, several Terraform community modules were used in this project. They should be forked for usage in a real production environment.
 
 ## Known Issues
-* SNS topic creation with **email** protocol is unsupported according to the [documentation](https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html).
+* SNS topic creation with **email** protocol is unsupported by Terraform according to the [documentation](https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html).
 * SSH key pair generation is also unsupported.
 * The lack of own domain did not allow me to test the Route 53-based domain record and SSL certificate properly.
 * Application logging and monitoring were considered but dropped as being out of scope.
@@ -73,6 +73,7 @@ For the sake of simplicity, several Terraform community modules were used in thi
     terraform apply -var profile=my_profile -var domain=mydomain.com
     ```
 1. Access the environment
+
     Check the output values of `terraform plan` or `terraform output`.
 ## Disclaimer
 The code was tested on macOS 10.12 and Ubuntu 16.04 with git 2.13.2 and Terraform v0.10.0, and is not guaranteed to work on other platforms or versions. Production environment was not tested and might not work as expected.
