@@ -35,6 +35,7 @@ For the sake of simplicity, several Terraform community modules were used in thi
 * The lack of own domain did not allow me to test the Route 53-based domain record and SSL certificate properly.
 * Application logging and monitoring were considered but dropped as being out of scope.
 * SSH keys are added to the existing user *ubuntu*.
+
 ## Deployment
 
 1. Pull from Github:

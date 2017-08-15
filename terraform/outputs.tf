@@ -1,5 +1,5 @@
 output "app_url" {
-  value = "Please wait 5-10 minutes after initial deployment and open https://${var.domain == "" ? aws_alb.app.dns_name : join(".", list(var.app_name, var.domain))}"
+  value = "Please wait 2-5 minutes after initial deployment and open https://${var.domain == "" ? aws_alb.app.dns_name : join(".", list(var.app_name, var.domain))}"
 }
 
 output "bastion_ip" {
