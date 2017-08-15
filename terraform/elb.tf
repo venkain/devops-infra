@@ -22,6 +22,10 @@ resource "aws_alb_target_group" "app" {
   protocol    = "HTTP"
   vpc_id      = "${module.vpc.vpc_id}"
 
+  health_check = {
+    path = "/explore"
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -43,8 +47,6 @@ resource "aws_alb_listener" "front_end" {
   lifecycle {
     create_before_destroy = true
   }
-}
 
-output "app_url" {
-  value = "Please wait 5-10 minutes after initial deployment and open https://${aws_alb.app.dns_name}"
+  depends_on = ["aws_iam_server_certificate.devops-cert"]
 }
