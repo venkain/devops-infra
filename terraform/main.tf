@@ -60,12 +60,13 @@ resource "aws_security_group" "app" {
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
 
-    // cidr_blocks     = ["10.0.0.0/16"]
-    security_groups = ["${aws_security_group.elb.id}"]
+    cidr_blocks = ["10.0.0.0/16"]
+
+    // security_groups = ["${aws_security_group.elb.id}"]
   }
 
   egress {
@@ -78,13 +79,4 @@ resource "aws_security_group" "app" {
   tags {
     Name = "${var.app_name}"
   }
-}
-
-resource "aws_security_group_rule" "allow_internal" {
-  type                     = "ingress"
-  from_port                = 0
-  to_port                  = 0
-  protocol                 = "-1"
-  source_security_group_id = "${aws_security_group.app.id}"
-  security_group_id        = "${aws_security_group.app.id}"
 }
