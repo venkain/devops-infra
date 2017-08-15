@@ -18,7 +18,7 @@ data "template_file" "user_data" {
   template = "${file("user_data.sh")}"
 
   vars {
-    url            = "${null_resource.url.triggers.address}"
+    url            = "https://${var.domain == "" ? aws_alb.app.dns_name : join(".", list(var.app_name, var.domain))}"
     postgres_url   = "${module.rds.rds_instance_address}"
     db_name        = "${var.database_name}"
     gitlab_db_name = "${var.gitlab_db_name}"
@@ -47,7 +47,6 @@ resource "aws_launch_configuration" "app" {
 }
 
 resource "aws_autoscaling_group" "app" {
-  availability_zones        = ["${slice(data.aws_availability_zones.available.names, 0, 2)}"]
   name                      = "${var.app_name}"
   max_size                  = "${var.max_size}"
   min_size                  = "${var.min_size}"

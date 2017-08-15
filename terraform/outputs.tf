@@ -1,12 +1,5 @@
-resource "null_resource" "url" {
-  triggers = {
-    address = "https://${var.domain == "" ? aws_alb.app.dns_name : join(".", list(var.app_name, var.domain))}"
-  }
-}
-
-// join(".", list(var.app_name, var.domain))
 output "app_url" {
-  value = "Please wait 5-10 minutes after initial deployment and open ${null_resource.url.triggers.address}"
+  value = "Please wait 5-10 minutes after initial deployment and open https://${var.domain == "" ? aws_alb.app.dns_name : join(".", list(var.app_name, var.domain))}"
 }
 
 output "bastion_ip" {
