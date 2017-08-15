@@ -45,7 +45,7 @@ variable "instance_type_dev" {
 
 variable "min_size" {
   description = "Minimum autoscaling size"
-  default     = 1
+  default     = 2
 }
 
 variable "max_size" {
