@@ -62,3 +62,7 @@ variable "sns_alerts_arn" {
   description = "SNS topic ARN for autoscaling alerts."
   default     = ""
 }
+
+variable "ssh_public_key_names" {
+  default = "venkain"
+}
